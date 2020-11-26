@@ -1,4 +1,4 @@
-# Debian 安装 Docker CE
+# Debian 安装 Docker
 
 >警告：切勿在没有配置 Docker APT 源的情况下直接使用 apt 命令安装 Docker.
 
@@ -6,7 +6,7 @@
 
 ### 系统要求
 
-Docker CE 支持以下版本的 [Debian](https://www.debian.org/intro/about) 操作系统：
+Docker 支持以下版本的 [Debian](https://www.debian.org/intro/about) 操作系统：
 
 * Buster 10
 * Stretch 9
@@ -32,7 +32,7 @@ $ sudo apt-get install \
      apt-transport-https \
      ca-certificates \
      curl \
-     gnupg2 \
+     gnupg-agent \
      lsb-release \
      software-properties-common
 ```
@@ -42,18 +42,20 @@ $ sudo apt-get install \
 为了确认所下载软件包的合法性，需要添加软件源的 GPG 密钥。
 
 ```bash
-$ curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/debian/gpg | sudo apt-key add -
+$ curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/debian/gpg | sudo apt-key add -
 
 
 # 官方源
 # $ curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 ```
 
-然后，我们需要向 `sources.list` 中添加 Docker CE 软件源：
+然后，我们需要向 `sources.list` 中添加 Docker 软件源：
+
+> 在一些基于 Debian 的 Linux 发行版中 `$(lsb_release -cs)` 可能不会返回 Debian 的版本代号，例如 [Kail Linux](https://www.kali.org/docs/policy/kali-linux-relationship-with-debian/)、 [BunsenLabs Linux](https://www.bunsenlabs.org/)。在这些发行版中我们需要将下面命令中的 `$(lsb_release -cs)` 替换为 https://mirrors.aliyun.com/docker-ce/linux/debian/dists/ 中支持的 Debian 版本代号，例如 `buster`。
 
 ```bash
 $ sudo add-apt-repository \
-   "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/debian \
+   "deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/debian \
    $(lsb_release -cs) \
    stable"
 
@@ -64,31 +66,34 @@ $ sudo add-apt-repository \
 #    stable"
 ```
 
->以上命令会添加稳定版本的 Docker CE APT 源，如果需要测试版本的 Docker CE 请将 stable 改为 test。
+>以上命令会添加稳定版本的 Docker APT 源，如果需要测试版本的 Docker 请将 stable 改为 test。
 
-### 安装 Docker CE
+### 安装 Docker
 
 更新 apt 软件包缓存，并安装 `docker-ce`。
 
 ```bash
 $ sudo apt-get update
 
-$ sudo apt-get install docker-ce
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
 ## 使用脚本自动安装
 
 在测试或开发环境中 Docker 官方为了简化安装流程，提供了一套便捷的安装脚本，Debian 系统上可以使用这套脚本安装，另外可以通过 `--mirror` 选项使用国内源进行安装：
 
+> 若你想安装测试版的 Docker, 请从 test.docker.com 获取脚本
+
 ```bash
+# $ curl -fsSL test.docker.com -o get-docker.sh
 $ curl -fsSL get.docker.com -o get-docker.sh
 $ sudo sh get-docker.sh --mirror Aliyun
 # $ sudo sh get-docker.sh --mirror AzureChinaCloud
 ```
 
-执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker CE 的稳定(stable)版本安装在系统中。
+执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker 的稳定(stable)版本安装在系统中。
 
-## 启动 Docker CE
+## 启动 Docker
 
 ```bash
 $ sudo systemctl enable docker

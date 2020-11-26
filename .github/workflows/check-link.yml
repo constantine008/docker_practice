@@ -1,8 +1,9 @@
-name: check-link
+name: Check link
 
 on:
-  push:
-  pull_request:
+  # push:
+  # pull_request:
+  workflow_dispatch:
 
 jobs:
   check-link:
@@ -36,9 +37,10 @@ jobs:
           "nodejs.org/dist/",\
           "c.163.com/hub",\
           "drone.yeasy.com",\
-          "mirrors.ustc.edu.cn",\
           "docs.docker.com",\
           "dockerhub.azk8s.cn",\
+          "reg-mirror.qiniu.com",\
+          "registry.docker-cn.com",\
           "mirror.ccs.tencentyun.com",\
           "vuepress.mirror.docker-practice.com",\
           "mc.qcloudimg.com/static/img",\
@@ -58,7 +60,7 @@ jobs:
           "union-click.jd.com",\
           "x.x.x.x/base",\
           "x.x.x.x:9000/minio/",\
-          "https://www.freedesktop.org/wiki/Software/systemd/",\
+          "yeasy.gitbooks.io",\
           "www.aliyun.com" \
           --allow-dupe \
           --skip-save-results \

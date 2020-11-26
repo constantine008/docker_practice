@@ -1,4 +1,4 @@
-# Fedora 安装 Docker CE
+# Fedora 安装 Docker
 
 >警告：切勿在没有配置 Docker dnf 源的情况下直接使用 dnf 命令安装 Docker.
 
@@ -6,10 +6,11 @@
 
 ### 系统要求
 
-Docker CE 支持以下版本的 [Fedora](https://getfedora.org/) 操作系统：
+Docker 支持以下版本的 [Fedora](https://getfedora.org/) 操作系统：
 
 * 30
 * 31
+* 32
 
 ### 卸载旧版本
 
@@ -43,9 +44,9 @@ $ sudo dnf -y install dnf-plugins-core
 ```bash
 $ sudo dnf config-manager \
     --add-repo \
-    https://mirrors.ustc.edu.cn/docker-ce/linux/fedora/docker-ce.repo
+    https://mirrors.aliyun.com/docker-ce/linux/fedora/docker-ce.repo
 
-$ sudo sed -i 's/download.docker.com/mirrors.ustc.edu.cn\/docker-ce/g' /etc/yum.repos.d/docker-ce.repo
+$ sudo sed -i 's/download.docker.com/mirrors.aliyun.com\/docker-ce/g' /etc/yum.repos.d/docker-ce.repo
 
 # 官方源
 # $ sudo dnf config-manager \
@@ -53,25 +54,25 @@ $ sudo sed -i 's/download.docker.com/mirrors.ustc.edu.cn\/docker-ce/g' /etc/yum.
 #    https://download.docker.com/linux/fedora/docker-ce.repo
 ```
 
-如果需要测试版本的 Docker CE 请使用以下命令：
+如果需要测试版本的 Docker 请使用以下命令：
 
 ```bash
 $ sudo dnf config-manager --set-enabled docker-ce-test
 ```
 
-你也可以禁用测试版本的 Docker CE
+你也可以禁用测试版本的 Docker
 
 ```bash
 $ sudo dnf config-manager --set-disabled docker-ce-test
 ```
 
-### 安装 Docker CE
+### 安装 Docker
 
 更新 `dnf` 软件源缓存，并安装 `docker-ce`。
 
 ```bash
 $ sudo dnf update
-$ sudo dnf install docker-ce
+$ sudo dnf install docker-ce docker-ce-cli containerd.io
 ```
 
 你也可以使用以下命令安装指定版本的 Docker
@@ -84,7 +85,7 @@ docker-ce.x86_64          18.06.1.ce-3.fc28                     docker-ce-stable
 $ sudo dnf -y install docker-ce-18.06.1.ce
 ```
 
-由于 Fedora 31 默认启用了 **Cgroupv2**，暂时 Docker 与 Cgroupv2 不兼容，请执行以下命令切换到 **Cgroupv1** 并重启计算机:
+由于 Fedora 31 默认启用了 **Cgroupv2**，稳定版本的 Docker 与 Cgroupv2 不兼容，你可以安装测试版 Docker，或者执行以下命令切换到 **Cgroupv1** 并重启计算机:
 
 ```bash
 $ sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
@@ -94,15 +95,18 @@ $ sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
 
 在测试或开发环境中 Docker 官方为了简化安装流程，提供了一套便捷的安装脚本，Debian 系统上可以使用这套脚本安装，另外可以通过 `--mirror` 选项使用国内源进行安装：
 
+> 若你想安装测试版的 Docker, 请从 test.docker.com 获取脚本
+
 ```bash
+# $ curl -fsSL test.docker.com -o get-docker.sh
 $ curl -fsSL get.docker.com -o get-docker.sh
 $ sudo sh get-docker.sh --mirror Aliyun
 # $ sudo sh get-docker.sh --mirror AzureChinaCloud
 ```
 
-执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker CE 最新稳定(stable)版本安装在系统中。
+执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker 最新稳定(stable)版本安装在系统中。
 
-## 启动 Docker CE
+## 启动 Docker
 
 ```bash
 $ sudo systemctl enable docker

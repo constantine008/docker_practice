@@ -1,12 +1,12 @@
-# 树莓派卡片电脑安装 Docker CE
+# 树莓派卡片电脑安装 Docker
 
 >警告：切勿在没有配置 Docker APT 源的情况下直接使用 apt 命令安装 Docker.
 
 ## 系统要求
 
-Docker CE 不仅支持 `x86_64` 架构的计算机，同时也支持 `ARM` 架构的计算机，本小节内容以树莓派单片电脑为例讲解 `ARM` 架构安装 Docker CE。
+Docker 不仅支持 `x86_64` 架构的计算机，同时也支持 `ARM` 架构的计算机，本小节内容以树莓派单片电脑为例讲解 `ARM` 架构安装 Docker。
 
-Docker CE 支持以下版本的 [Raspberry Pi OS](https://www.raspberrypi.org/downloads/raspberry-pi-os/) 操作系统：
+Docker 支持以下版本的 [Raspberry Pi OS](https://www.raspberrypi.org/downloads/raspberry-pi-os/) 操作系统：
 
 * Raspberry Pi OS Buster
 
@@ -33,18 +33,18 @@ $ sudo apt-get install \
 为了确认所下载软件包的合法性，需要添加软件源的 GPG 密钥。
 
 ```bash
-$ curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/raspbian/gpg | sudo apt-key add -
+$ curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/raspbian/gpg | sudo apt-key add -
 
 
 # 官方源
 # $ curl -fsSL https://download.docker.com/linux/raspbian/gpg | sudo apt-key add -
 ```
 
-然后，我们需要向 `sources.list` 中添加 Docker CE 软件源：
+然后，我们需要向 `sources.list` 中添加 Docker 软件源：
 
 ```bash
 $ sudo add-apt-repository \
-    "deb [arch=armhf] https://mirrors.ustc.edu.cn/docker-ce/linux/raspbian \
+    "deb [arch=armhf] https://mirrors.aliyun.com/docker-ce/linux/raspbian \
     $(lsb_release -cs) \
     stable"
 
@@ -56,9 +56,9 @@ $ sudo add-apt-repository \
 #    stable"
 ```
 
->以上命令会添加稳定版本的 Docker CE APT 源，如果需要测试版本的 Docker CE 请将 stable 改为 test。
+>以上命令会添加稳定版本的 Docker APT 源，如果需要测试版本的 Docker 请将 stable 改为 test。
 
-### 安装 Docker CE
+### 安装 Docker
 
 更新 apt 软件包缓存，并安装 `docker-ce`。
 
@@ -72,15 +72,18 @@ $ sudo apt-get install docker-ce
 
 在测试或开发环境中 Docker 官方为了简化安装流程，提供了一套便捷的安装脚本，Raspberry Pi OS 系统上可以使用这套脚本安装，另外可以通过 `--mirror` 选项使用国内源进行安装：
 
+> 若你想安装测试版的 Docker, 请从 test.docker.com 获取脚本
+
 ```bash
+# $ curl -fsSL test.docker.com -o get-docker.sh
 $ curl -fsSL get.docker.com -o get-docker.sh
 $ sudo sh get-docker.sh --mirror Aliyun
 # $ sudo sh get-docker.sh --mirror AzureChinaCloud
 ```
 
-执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker CE 的稳定(stable)版本安装在系统中。
+执行这个命令后，脚本就会自动的将一切准备工作做好，并且把 Docker 的稳定(stable)版本安装在系统中。
 
-## 启动 Docker CE
+## 启动 Docker
 
 ```bash
 $ sudo systemctl enable docker
